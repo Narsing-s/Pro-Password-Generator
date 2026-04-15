@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Pro Password Generator</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Segoe UI, sans-serif;
+  background:linear-gradient(135deg,#0f172a,#1e293b);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  color:white;
+}
+
+.container{
+  width:420px;
+  background:rgba(255,255,255,0.08);
+  padding:25px;
+  border-radius:16px;
+  backdrop-filter: blur(12px);
+  box-shadow:0 0 25px rgba(0,0,0,0.4);
+}
+
+h2{
+  text-align:center;
+  margin-bottom:15px;
+}
+
+.row{
+  display:flex;
+  gap:10px;
+}
+
+input[type="text"]{
+  flex:1;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+}
+
+button{
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+  background:#38bdf8;
+}
+
+button:hover{
+  background:#0ea5e9;
+}
+
+.options{
+  margin-top:15px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  font-size:14px;
+}
+
+.length-box{
+  margin-top:15px;
+}
+
+input[type="number"]{
+  width:100%;
+  padding:10px;
+  border-radius:8px;
+  border:none;
+}
+
+.strength{
+  margin-top:12px;
+  text-align:center;
+  font-weight:bold;
+}
+
+.bar{
+  height:8px;
+  width:100%;
+  background:#334155;
+  border-radius:5px;
+  margin-top:6px;
+  overflow:hidden;
+}
+
+.fill{
+  height:100%;
+  width:0%;
+  transition:0.3s;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h2>🔐 Pro Password Generator</h2>
+
+  <div class="row">
+    <input type="text" id="password" readonly />
+    <button onclick="copyPwd()">Copy</button>
+  </div>
+
+  <div class="length-box">
+    <label>Length</label>
+    <input type="number" id="length" min="4" max="32" value="12">
+  </div>
+
+  <div class="options">
+    <label><input type="checkbox" id="upper" checked> Uppercase</label>
+    <label><input type="checkbox" id="lower" checked> Lowercase</label>
+    <label><input type="checkbox" id="numbers" checked> Numbers</label>
+    <label><input type="checkbox" id="symbols"> Symbols</label>
+  </div>
+
+  <button style="width:100%; margin-top:15px;" onclick="generate()">Generate Password</button>
+
+  <div class="strength" id="strengthText">Strength: -</div>
+  <div class="bar"><div class="fill" id="barFill"></div></div>
+
+</div>
+
+<script>
+
+function generate(){
+  let length = parseInt(document.getElementById("length").value);
+
+  const upper = document.getElementById("upper").checked;
+  const lower = document.getElementById("lower").checked;
+  const numbers = document.getElementById("numbers").checked;
+  const symbols = document.getElementById("symbols").checked;
+
+  let upperChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  let lowerChars = "abcdefghijklmnopqrstuvwxyz";
+  let numChars = "0123456789";
+  let symChars = "!@#$%^&*()_+{}[]<>?/";
+
+  let chars = "";
+
+  if(upper) chars += upperChars;
+  if(lower) chars += lowerChars;
+  if(numbers) chars += numChars;
+  if(symbols) chars += symChars;
+
+  if(chars === ""){
+    alert("Select at least one option!");
+    return;
+  }
+
+  if(isNaN(length) || length < 4) length = 4;
+  if(length > 32) length = 32;
+
+  let password = "";
+  for(let i=0;i<length;i++){
+    password += chars[Math.floor(Math.random()*chars.length)];
+  }
+
+  document.getElementById("password").value = password;
+
+  checkStrength(password);
+}
+
+function checkStrength(pwd){
+  let strength = 0;
+
+  if(pwd.length >= 8) strength++;
+  if(/[A-Z]/.test(pwd)) strength++;
+  if(/[0-9]/.test(pwd)) strength++;
+  if(/[^A-Za-z0-9]/.test(pwd)) strength++;
+
+  let text = "";
+  let color = "";
+  let percent = 0;
+
+  if(strength <= 1){
+    text = "Weak";
+    color = "red";
+    percent = 30;
+  }
+  else if(strength == 2 || strength == 3){
+    text = "Medium";
+    color = "orange";
+    percent = 60;
+  }
+  else{
+    text = "Strong";
+    color = "lime";
+    percent = 100;
+  }
+
+  document.getElementById("strengthText").innerText = "Strength: " + text;
+
+  let bar = document.getElementById("barFill");
+  bar.style.width = percent + "%";
+  bar.style.background = color;
+}
+
+function copyPwd(){
+  let pwd = document.getElementById("password");
+  pwd.select();
+  document.execCommand("copy");
+  alert("Copied!");
+}
+
+</script>
+
+</body>
+</html>
