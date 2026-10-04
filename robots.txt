@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://narsing-s.github.io/Pro-Password-Generator/sitemap.xml
