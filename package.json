@@ -1,0 +1,12 @@
+{
+  "name": "vaultforge-password-generator",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Privacy-first browser-only password security lab",
+  "scripts": {
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0"
+  }
+}
