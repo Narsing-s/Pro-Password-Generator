@@ -1,8 +1,16 @@
 # VaultForge — Pro Password Generator
 
+[![Live Demo](https://img.shields.io/badge/Live-Demo-8b5cf6)](https://narsing-s.github.io/Pro-Password-Generator/) [![License: MIT](https://img.shields.io/badge/License-MIT-22d3ee.svg)](LICENSE)
+
+> **A privacy-first password security lab — strong secrets, generated locally.**
+
 A modern, privacy-first password security lab that runs entirely in the browser.
 
 **Live app:** https://narsing-s.github.io/Pro-Password-Generator/
+
+## Why VaultForge
+
+VaultForge is deliberately built as a static application: no account, database, analytics pipeline, backend, or API key is required. The security-sensitive generation path stays in the browser.
 
 ## What it provides
 
@@ -42,3 +50,15 @@ The project is compatible with GitHub Pages and other static hosts.
 ## License
 
 MIT — see [LICENSE](LICENSE).
+
+
+## Project structure
+
+- `index.html` — complete static application
+- `SECURITY.md` — security reporting and design notes
+- `CONTRIBUTING.md` — contribution workflow
+- `.github/ISSUE_TEMPLATE/` — bug and feature templates
+
+## Browser support
+
+Use a current version of Chrome, Edge, Firefox, Safari, or another browser with Web Crypto API support.
