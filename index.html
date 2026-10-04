@@ -1,217 +1,71 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Pro Password Generator</title>
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<meta name="description" content="A privacy-first, browser-only password and passphrase generator.">
+<title>VaultForge — Password Security Lab</title>
 <style>
-body{
-  margin:0;
-  font-family:Segoe UI, sans-serif;
-  background:linear-gradient(135deg,#0f172a,#1e293b);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-  color:white;
-}
-
-.container{
-  width:420px;
-  background:rgba(255,255,255,0.08);
-  padding:25px;
-  border-radius:16px;
-  backdrop-filter: blur(12px);
-  box-shadow:0 0 25px rgba(0,0,0,0.4);
-}
-
-h2{
-  text-align:center;
-  margin-bottom:15px;
-}
-
-.row{
-  display:flex;
-  gap:10px;
-}
-
-input[type="text"]{
-  flex:1;
-  padding:10px;
-  border:none;
-  border-radius:8px;
-}
-
-button{
-  padding:10px;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
-  font-weight:bold;
-  background:#38bdf8;
-}
-
-button:hover{
-  background:#0ea5e9;
-}
-
-.options{
-  margin-top:15px;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-  font-size:14px;
-}
-
-.length-box{
-  margin-top:15px;
-}
-
-input[type="number"]{
-  width:100%;
-  padding:10px;
-  border-radius:8px;
-  border:none;
-}
-
-.strength{
-  margin-top:12px;
-  text-align:center;
-  font-weight:bold;
-}
-
-.bar{
-  height:8px;
-  width:100%;
-  background:#334155;
-  border-radius:5px;
-  margin-top:6px;
-  overflow:hidden;
-}
-
-.fill{
-  height:100%;
-  width:0%;
-  transition:0.3s;
-}
-
+:root{--bg:#070a12;--panel:rgba(16,22,38,.78);--panel2:rgba(20,28,48,.9);--text:#eef2ff;--muted:#9aa6c2;--line:rgba(255,255,255,.09);--accent:#8b5cf6;--accent2:#22d3ee;--good:#34d399;--warn:#fbbf24;--bad:#fb7185;--shadow:0 30px 90px rgba(0,0,0,.45)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;color:var(--text);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 15% 10%,rgba(139,92,246,.18),transparent 32%),radial-gradient(circle at 85% 15%,rgba(34,211,238,.13),transparent 28%),var(--bg)}
+button,input{font:inherit}.shell{width:min(1180px,calc(100% - 28px));margin:auto;padding:28px 0 60px}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:26px}.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;display:grid;place-items:center;border:1px solid var(--line);border-radius:15px;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 12px 35px rgba(34,211,238,.16);font-size:22px}.eyebrow{margin:0;color:#b8c2dc;font-size:12px;letter-spacing:.16em;text-transform:uppercase}.brand h1{margin:2px 0 0;font-size:22px}.theme{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:12px;padding:9px 12px;cursor:pointer}.hero{display:grid;grid-template-columns:1.25fr .75fr;gap:18px;margin-bottom:18px}.card{border:1px solid var(--line);background:var(--panel);backdrop-filter:blur(22px);border-radius:24px;box-shadow:var(--shadow)}.hero-main{padding:28px}.hero h2{font-size:clamp(30px,5vw,56px);line-height:1.02;margin:8px 0 14px;letter-spacing:-.045em}.gradient{background:linear-gradient(90deg,#fff,#c4b5fd,#67e8f9);-webkit-background-clip:text;background-clip:text;color:transparent}.sub{color:var(--muted);max-width:670px}.privacy{padding:22px;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(145deg,rgba(139,92,246,.15),rgba(34,211,238,.08)),var(--panel)}.shield{font-size:38px}.privacy strong{display:block;font-size:18px;margin:8px 0}.privacy span{color:var(--muted);font-size:13px}.workspace{display:grid;grid-template-columns:1.25fr .75fr;gap:18px}.generator{padding:22px}.label{display:flex;justify-content:space-between;align-items:center;color:#c8d0e5;font-size:13px;font-weight:650;margin-bottom:8px}.output{display:flex;gap:10px}.output input{min-width:0;flex:1;border:1px solid var(--line);background:#080c16;color:#fff;border-radius:15px;padding:16px;font-size:18px;letter-spacing:.06em;outline:none}.output input:focus{border-color:rgba(139,92,246,.7);box-shadow:0 0 0 3px rgba(139,92,246,.13)}button.primary{border:0;border-radius:15px;padding:0 18px;background:linear-gradient(135deg,var(--accent),#6d5dfc);color:#fff;font-weight:800;cursor:pointer;box-shadow:0 12px 25px rgba(139,92,246,.25)}button.secondary{border:1px solid var(--line);border-radius:12px;padding:9px 12px;background:rgba(255,255,255,.04);color:var(--text);cursor:pointer}.strength{margin-top:14px;padding:13px;border:1px solid var(--line);border-radius:15px;background:rgba(255,255,255,.025)}.meter{height:8px;border-radius:20px;background:#20283b;overflow:hidden;margin-top:9px}.meter i{display:block;height:100%;width:0;border-radius:inherit;background:var(--good);transition:width .25s}.stats{display:flex;justify-content:space-between;margin-top:8px;color:var(--muted);font-size:12px}.controls{margin-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:14px}.control{padding:15px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.025)}.control.full{grid-column:1/-1}.range{width:100%;accent-color:var(--accent)}.checks{display:grid;grid-template-columns:1fr 1fr;gap:10px}.check{display:flex;gap:9px;align-items:center;color:#cbd5e1;cursor:pointer}.check input{accent-color:var(--accent)}.actions{display:flex;gap:10px;margin-top:16px}.side{padding:22px}.side h3{margin:0 0 15px}.quick{display:grid;gap:9px}.quick button{text-align:left}.quick small{display:block;color:var(--muted);margin-top:2px}.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:99px;background:rgba(52,211,153,.1);color:#8ff0c7;font-size:11px;font-weight:800}.feature{margin-top:16px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}.footer{text-align:center;color:#69758f;font-size:12px;margin-top:24px}.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;padding:11px 15px;border:1px solid var(--line);border-radius:12px;background:#111827;color:#fff;transition:.2s;box-shadow:var(--shadow)}.toast.show{opacity:1;transform:translate(-50%,0)}@media(max-width:820px){.hero,.workspace{grid-template-columns:1fr}.controls{grid-template-columns:1fr}.control.full{grid-column:auto}.hero-main{padding:22px}.hero h2{font-size:38px}}@media(max-width:520px){.shell{width:min(100% - 18px,1180px);padding-top:14px}.top{align-items:flex-start}.output{flex-direction:column}.primary{min-height:48px}.checks{grid-template-columns:1fr}}
 </style>
 </head>
-
 <body>
-
-<div class="container">
-
-  <h2>🔐 Pro Password Generator</h2>
-
-  <div class="row">
-    <input type="text" id="password" readonly />
-    <button onclick="copyPwd()">Copy</button>
-  </div>
-
-  <div class="length-box">
-    <label>Length</label>
-    <input type="number" id="length" min="4" max="32" value="12">
-  </div>
-
-  <div class="options">
-    <label><input type="checkbox" id="upper" checked> Uppercase</label>
-    <label><input type="checkbox" id="lower" checked> Lowercase</label>
-    <label><input type="checkbox" id="numbers" checked> Numbers</label>
-    <label><input type="checkbox" id="symbols"> Symbols</label>
-  </div>
-
-  <button style="width:100%; margin-top:15px;" onclick="generate()">Generate Password</button>
-
-  <div class="strength" id="strengthText">Strength: -</div>
-  <div class="bar"><div class="fill" id="barFill"></div></div>
-
+<div class="shell">
+<header class="top"><div class="brand"><div class="logo">⌁</div><div><p class="eyebrow">Privacy-first security utility</p><h1>VaultForge</h1></div></div><button class="theme" id="themeBtn" aria-label="Toggle theme">◐ Theme</button></header>
+<section class="hero">
+<div class="card hero-main"><span class="pill">● 100% browser-side</span><h2>Generate secrets.<br><span class="gradient">Keep them yours.</span></h2><p class="sub">A modern password security lab built for strong, random credentials without accounts, servers, analytics, or API keys.</p></div>
+<div class="card privacy"><div><div class="shield">🛡️</div><strong>Nothing leaves your device</strong><span>Generation uses the Web Crypto API. Passwords are created locally and are never transmitted by this page.</span></div><div class="feature">No login · No database · No tracking</div></div>
+</section>
+<main class="workspace">
+<section class="card generator">
+<div class="label"><span>Generated secret</span><span id="typeLabel">Password</span></div>
+<div class="output"><input id="password" readonly aria-label="Generated password" autocomplete="off"><button class="secondary" id="copyBtn">Copy</button></div>
+<div class="strength"><div class="label"><span id="strengthText">Ready to generate</span><span id="entropy">— bits</span></div><div class="meter"><i id="meter"></i></div><div class="stats"><span id="crack">Entropy-based estimate</span><span id="lengthStat">0 chars</span></div></div>
+<div class="controls">
+<div class="control full"><div class="label"><span>Password length</span><b id="lengthValue">20</b></div><input class="range" id="length" type="range" min="6" max="128" value="20"></div>
+<div class="control"><div class="label"><span>Character sets</span></div><div class="checks">
+<label class="check"><input id="upper" type="checkbox" checked> Uppercase</label><label class="check"><input id="lower" type="checkbox" checked> Lowercase</label><label class="check"><input id="numbers" type="checkbox" checked> Numbers</label><label class="check"><input id="symbols" type="checkbox" checked> Symbols</label>
+</div></div>
+<div class="control"><div class="label"><span>Quality options</span></div><div class="checks">
+<label class="check"><input id="ambiguous" type="checkbox"> Avoid ambiguous</label><label class="check"><input id="unique" type="checkbox"> No repeated chars</label>
+</div></div>
 </div>
-
+<div class="actions"><button class="primary" id="generateBtn">Generate secure password</button><button class="secondary" id="clearBtn">Clear</button></div>
+</section>
+<aside class="card side">
+<h3>Quick modes</h3><div class="quick">
+<button class="secondary" data-preset="passphrase">🧩 Passphrase <small>Readable, memorable multi-word secret</small></button>
+<button class="secondary" data-preset="api">⚡ API token <small>High-entropy URL-safe token</small></button>
+<button class="secondary" data-preset="pin">◉ Secure PIN <small>Cryptographically random numeric PIN</small></button>
+<button class="secondary" data-preset="strong">✦ Maximum strength <small>64 characters with all sets</small></button>
+</div>
+<div class="feature"><b style="color:var(--text)">Security model</b><br>Randomness comes from <code>crypto.getRandomValues()</code>, not predictable <code>Math.random()</code>. The app has no backend.</div>
+</aside>
+</main>
+<footer class="footer">VaultForge · Open source · MIT licensed · Designed for local-only generation</footer>
+</div>
+<div class="toast" id="toast" role="status"></div>
 <script>
-
-function generate(){
-  let length = parseInt(document.getElementById("length").value);
-
-  const upper = document.getElementById("upper").checked;
-  const lower = document.getElementById("lower").checked;
-  const numbers = document.getElementById("numbers").checked;
-  const symbols = document.getElementById("symbols").checked;
-
-  let upperChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  let lowerChars = "abcdefghijklmnopqrstuvwxyz";
-  let numChars = "0123456789";
-  let symChars = "!@#$%^&*()_+{}[]<>?/";
-
-  let chars = "";
-
-  if(upper) chars += upperChars;
-  if(lower) chars += lowerChars;
-  if(numbers) chars += numChars;
-  if(symbols) chars += symChars;
-
-  if(chars === ""){
-    alert("Select at least one option!");
-    return;
-  }
-
-  if(isNaN(length) || length < 4) length = 4;
-  if(length > 32) length = 32;
-
-  let password = "";
-  for(let i=0;i<length;i++){
-    password += chars[Math.floor(Math.random()*chars.length)];
-  }
-
-  document.getElementById("password").value = password;
-
-  checkStrength(password);
-}
-
-function checkStrength(pwd){
-  let strength = 0;
-
-  if(pwd.length >= 8) strength++;
-  if(/[A-Z]/.test(pwd)) strength++;
-  if(/[0-9]/.test(pwd)) strength++;
-  if(/[^A-Za-z0-9]/.test(pwd)) strength++;
-
-  let text = "";
-  let color = "";
-  let percent = 0;
-
-  if(strength <= 1){
-    text = "Weak";
-    color = "red";
-    percent = 30;
-  }
-  else if(strength == 2 || strength == 3){
-    text = "Medium";
-    color = "orange";
-    percent = 60;
-  }
-  else{
-    text = "Strong";
-    color = "lime";
-    percent = 100;
-  }
-
-  document.getElementById("strengthText").innerText = "Strength: " + text;
-
-  let bar = document.getElementById("barFill");
-  bar.style.width = percent + "%";
-  bar.style.background = color;
-}
-
-function copyPwd(){
-  let pwd = document.getElementById("password");
-  pwd.select();
-  document.execCommand("copy");
-  alert("Copied!");
-}
-
+const $=id=>document.getElementById(id);
+const sets={upper:"ABCDEFGHJKLMNPQRSTUVWXYZ",lower:"abcdefghijkmnopqrstuvwxyz",numbers:"23456789",symbols:"!@#$%^&*()-_=+[]{}<>?/|~"};
+const all={upper:"ABCDEFGHIJKLMNOPQRSTUVWXYZ",lower:"abcdefghijklmnopqrstuvwxyz",numbers:"0123456789",symbols:"!@#$%^&*()-_=+[]{}<>?/|~"};
+const ambiguous=/[O0Il1o]/g;
+function randomInt(max){const a=new Uint32Array(1);const limit=Math.floor(4294967296/max)*max;do{crypto.getRandomValues(a)}while(a[0]>=limit);return a[0]%max}
+function pick(chars){return chars[randomInt(chars.length)]}
+function passwordFrom(chars,len,noRepeat){let out="";let pool=chars;if(noRepeat&&len>pool.length)noRepeat=false;while(out.length<len){const c=pick(pool);if(!noRepeat||!out.includes(c))out+=c}return out}
+function selected(){let s="";["upper","lower","numbers","symbols"].forEach(k=>{if($(k).checked)s+=($( "ambiguous").checked?sets[k]:all[k])});return s}
+function analyze(pwd,poolSize){if(!pwd){$("strengthText").textContent="Ready to generate";$("meter").style.width="0";$("entropy").textContent="— bits";$("crack").textContent="Entropy-based estimate";$("lengthStat").textContent="0 chars";return}const bits=Math.log2(Math.max(poolSize,2))*pwd.length;const pct=Math.min(100,Math.round(bits/100*100));let label=bits<45?"Weak":bits<70?"Fair":bits<100?"Strong":"Very strong";$("strengthText").textContent=label;$("meter").style.width=pct+"%";$("entropy").textContent=Math.round(bits)+" bits";$("lengthStat").textContent=pwd.length+" chars";$("crack").textContent=bits<45?"Consider a longer secret":bits<70?"Good for low-risk use":bits<100?"High resistance to guessing":"Extremely high entropy"}
+function generate(){const len=+$("length").value;let chars=selected();if(!chars){toast("Select at least one character set");return}let pwd="";const required=[];["upper","lower","numbers","symbols"].forEach(k=>{if($(k).checked){const c=($( "ambiguous").checked?sets[k]:all[k]);required.push(pick(c))}});const noRepeat=$("unique").checked;const pool=chars;pwd=required.join("");if(pwd.length>len){pwd=pwd.slice(0,len)}else{pwd+=passwordFrom(pool,len-pwd.length,noRepeat)}pwd=pwd.split("").sort(()=>randomInt(2)-.5).join("");$("password").value=pwd;analyze(pwd,pool.length)}
+async function copy(){const v=$("password").value;if(!v){toast("Generate a secret first");return}try{await navigator.clipboard.writeText(v);toast("Copied securely to clipboard")}catch{$("password").select();document.execCommand("copy");toast("Copied")}}
+function toast(t){$("toast").textContent=t;$("toast").classList.add("show");clearTimeout(window.__t);window.__t=setTimeout(()=>$("toast").classList.remove("show"),1800)}
+$("length").oninput=()=>{$("lengthValue").textContent=$("length").value};
+$("generateBtn").onclick=generate;$("copyBtn").onclick=copy;$("clearBtn").onclick=()=>{$("password").value="";analyze("",0)};
+$("themeBtn").onclick=()=>document.documentElement.style.setProperty("--bg",getComputedStyle(document.documentElement).getPropertyValue("--bg").trim()==="#070a12"?"#f4f7fb":"#070a12");
+document.querySelectorAll("[data-preset]").forEach(b=>b.onclick=()=>{const p=b.dataset.preset;if(p==="passphrase"){const words=["amber","orbit","cedar","river","falcon","lunar","pixel","cobalt","meadow","atlas","quartz","violet","harbor","comet","maple","zenith"];const w=Array.from({length:5},()=>pick(words));$("password").value=w.join("-");$("typeLabel").textContent="Passphrase";analyze($("password").value,words.length);return}if(p==="api"){ $("length").value=48;$("lengthValue").textContent=48;["upper","lower","numbers","symbols"].forEach(k=>$(k).checked=k!=="symbols");$("symbols").checked=true;$("ambiguous").checked=false;$("unique").checked=false;$("typeLabel").textContent="API token";generate();return}if(p==="pin"){ $("typeLabel").textContent="Secure PIN";const v=passwordFrom("0123456789",8,false);$("password").value=v;analyze(v,10);return}$("length").value=64;$("lengthValue").textContent=64;["upper","lower","numbers","symbols"].forEach(k=>$(k).checked=true);$("typeLabel").textContent="Password";generate()});
+generate();
 </script>
-
 </body>
 </html>
